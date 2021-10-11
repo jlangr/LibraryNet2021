@@ -47,25 +47,26 @@ namespace LibraryCoreTests.Util
             Assert.Equal("Murakami, Haruki", normalizer.Normalize("Haruki Murakami"));
         }
 
-        [Fact(Skip="unskip when ready to work")]
+        [Fact]
         public void TrimsWhitespace()
         {
             Assert.Equal("Boi, Big", normalizer.Normalize("  Big Boi   "));
         }
 
-        [Fact(Skip="unskip when ready to work")]
+        [Fact]
         public void InitializesMiddleName()
         {
             Assert.Equal("Thoreau, Henry D.", normalizer.Normalize("Henry David Thoreau"));
         }
 
-        [Fact(Skip="unskip when ready to work")]
+        [Fact]
         public void DoesNotInitializeOneLetterMiddleName()
         {
             Assert.Equal("Truman, Harry S", normalizer.Normalize("Harry S Truman"));
+            Assert.Equal("Langr, Jeffrey X", normalizer.Normalize("Jeffrey X Langr"));
         }
 
-        [Fact(Skip="unskip when ready to work")]
+        [Fact]
         public void InitializesEachOfMultipleMiddleNames()
         {
             Assert.Equal("Louis-Dreyfus, Julia S. E.", normalizer.Normalize("Julia Scarlett Elizabeth Louis-Dreyfus"));
