@@ -62,7 +62,7 @@ namespace LibraryNet2020.Controllers
 
             try
             {
-                holdingsService.Add(holding);
+                await Task.Run(() => holdingsService.Add(holding));
             }
             catch (Exception e)
             {
@@ -115,7 +115,7 @@ namespace LibraryNet2020.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            context.Holdings.Delete(id, context);
+            await Task.Run(() => context.Holdings.Delete(id, context));
             return RedirectToAction(nameof(Index));
         }
     }

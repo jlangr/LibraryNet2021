@@ -22,7 +22,7 @@ namespace LibraryCoreTests.Util
 {
     public class NameNormalizerTest
     {
-        private NameNormalizer normalizer;
+        private readonly NameNormalizer normalizer;
 
         public NameNormalizerTest()
         {

@@ -52,7 +52,7 @@ namespace LibraryTest.Util
         {
         }
 
-        public void Log(string message)
+        public void Log(string _message)
         {
             // Console.WriteLine(message);
         }
@@ -199,7 +199,7 @@ namespace LibraryTest.Util
         }
 
         [Fact]
-        public void moq()
+        public void Moq()
         {
             var mock = new Mock<IDictionary<object, string>>();
             var dictionary = mock.Object;
@@ -222,7 +222,7 @@ namespace LibraryTest.Util
             Assert.Equal("maybe singular", dictionary["trout"]);
         }
 
-        private IList<string> list;
+        private readonly IList<string> list;
 
         public MiscTest()
         {
@@ -239,7 +239,7 @@ namespace LibraryTest.Util
             Assert.Equal(42, list.Count);
         }
 
-        public interface Cache
+        public interface ICache
         {
             string LookUp(string key);
         }
@@ -248,9 +248,9 @@ namespace LibraryTest.Util
         public void MockOfSyntax()
         {
             var cache =
-                Mock.Of<Cache>(c => c.LookUp("smelt") == "a fish");
+                Mock.Of<ICache>(c => c.LookUp("smelt") == "a fish");
 
-            Assert.Equal(cache.LookUp("smelt"), "a fish");
+            Assert.Equal("a fish", cache.LookUp("smelt"));
         }
 
         public class Store
@@ -267,7 +267,7 @@ namespace LibraryTest.Util
             var store =
                 Mock.Of<Store>(c => c.LookUp("smelt") == "a fish");
 
-            Assert.Equal(store.LookUp("smelt"), "a fish");
+            Assert.Equal("a fish", store.LookUp("smelt"));
         }
 
 

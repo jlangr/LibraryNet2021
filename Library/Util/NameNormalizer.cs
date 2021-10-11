@@ -1,4 +1,6 @@
-﻿namespace LibraryNet2020.Util
+﻿using System;
+
+namespace LibraryNet2020.Util
 {
     public class NameNormalizer
 	{
@@ -17,7 +19,7 @@
 
         private static bool IsMononym(string[] parts)
         {
-            return parts.Length != 2;
+            return parts.Length == 1;
         }
 
         private static string First(string[] parts)
@@ -27,7 +29,7 @@
 
         private static string Last(string[] parts)
         {
-            return parts[1];
+            return parts[1]; // hmm.
         }
     }
 }
