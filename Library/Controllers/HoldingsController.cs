@@ -62,7 +62,7 @@ namespace LibraryNet2020.Controllers
 
             try
             {
-                await Task.Run(() => holdingsService.Add(holding));
+                holdingsService.Add(holding);
             }
             catch (Exception e)
             {

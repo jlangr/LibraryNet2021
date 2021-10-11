@@ -60,7 +60,7 @@ namespace LibraryTest.Controllers
 
         private static Holding Holding(IActionResult result)
         {
-            return Assert.IsType<Holding>((Assert.IsType<ViewResult>(result)).Model);
+            return (result as ViewResult).Model as Holding;
         }
     }
 }
