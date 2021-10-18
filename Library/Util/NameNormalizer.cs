@@ -1,4 +1,6 @@
 ﻿using System;
+using LibraryNet2020.Migrations;
+using Microsoft.VisualBasic;
 
 namespace LibraryNet2020.Util
 {
@@ -8,13 +10,35 @@ namespace LibraryNet2020.Util
         {
             var parts = Parts(unnormalizedName);
             if (IsMononym(parts))
-                return unnormalizedName;
-            return Last(parts) + ", " + First(parts);
+                return First(parts);
+            if (IsDuonym(parts))
+                return Last(parts) + ", " + First(parts);
+            return $"{Last(parts)}, {First(parts)} {MiddleInitial(parts)}}}";
+        }
+
+        private string MiddleInitial(string[] parts)
+        {
+            return Initial(Middle(parts));
+        }
+
+        private string Initial(string[] parts)
+        {
+            return "";
+        }
+        
+        private string Middle(string[] parts)
+        {
+            return parts[1];
+        }
+
+        private bool IsDuonym(string[] parts)
+        {
+            return parts.Length == 2;
         }
 
         private string[] Parts(string name)
         {
-            return name.Split(' ');
+            return name.Trim().Split(' ');
         }
 
         private static bool IsMononym(string[] parts)
