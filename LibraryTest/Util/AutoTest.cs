@@ -1,7 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Castle.Core.Configuration;
+using LibraryTest.Scanner;
 using Microsoft.Extensions.Logging;
+using Microsoft.VisualBasic;
 using Moq;
 using Xunit;
 using Assert = Xunit.Assert;
@@ -290,5 +293,153 @@ namespace LibraryTest.Util
         {
             Assert.Equal(expected, GCD(x, y));
         }
+    }
+
+    class ObjCompetitorParts
+    {
+        public string RegionCode { get; set; }
+        public string Notes { get; set; }
+        public string Name { get; set; }
+        public string FootPrint { get; set; }
+    }
+
+    class Item
+    {
+        public string status;
+        public string Region { get; set; }
+        public string Notes { get; set; }
+        public string FootPrint { get; set; }
+    }
+
+    class Whatever
+    {
+        public ObjCompetitorParts MoveData(Item item)
+        {
+            var objCompetitorParts = new ObjCompetitorParts();
+            var itemRegion =  SubstringFoundOrFieldIfNotFound(item.Region, "Global"); // +1 additional test
+            objCompetitorParts.RegionCode = TrimWithDefaultToEmpty(itemRegion);
+            objCompetitorParts.Notes = TrimWithDefaultToEmpty(item.Notes);
+            objCompetitorParts.Name = TrimWithDefaultToEmpty(item.status);  
+            objCompetitorParts.FootPrint = TrimWithDefaultToEmpty(item.FootPrint);
+            return objCompetitorParts;
+        }
+
+        private static string SubstringFoundOrFieldIfNotFound(string field, string substring)
+        {
+            return field.Contains(substring) ? substring :  field;
+        }
+
+        public string TrimWithDefaultToEmpty(string value) // ???
+        {
+            return value != null ? value.Trim() : "";
+        }
+    }
+
+    public class StringUtilTest
+    {
+        [Fact]
+        public void TrimsOkDoesNothingIfStringAlreadyTrimmed()
+        {
+            var whatever = new Whatever();
+            Assert.Equal("abc", whatever.TrimWithDefaultToEmpty("abc"));
+        }
+        
+        [Fact]
+        public void TrimRemovesSpacesFromString()
+        {
+            var whatever = new Whatever();
+            Assert.Equal("abc", whatever.TrimWithDefaultToEmpty("  abc   "));
+        }
+        
+        [Fact]
+        public void TrimReturnsEmptyStringWhenNull()
+        {
+            var whatever = new Whatever();
+            Assert.Equal("", whatever.TrimWithDefaultToEmpty(null));
+        }
+    }
+
+    public class SomeTest
+    {
+        [Fact]
+        public void CanMoveDataForItem()
+        {
+            var whatever = new Whatever();
+            var item = new Item
+            {
+                Notes = "notes ", status = "status ", FootPrint = "footprint ", Region = "Global whatever"
+            };
+            
+            var result = whatever.MoveData(item);
+            
+            Assert.Equal("status", result.Name);
+            Assert.Equal("notes", result.Notes);
+            Assert.Equal("footprint", result.FootPrint);
+        }
+        
+        [Fact]
+        public void CanMoveDataAfterTrimming()
+        {
+            var whatever = new Whatever();
+            var item = new Item
+            {
+                Notes = "notes ", status = "status ", FootPrint = "footprint ", Region = "Global whatever" 
+            };
+
+            var result = whatever.MoveData(item);
+            
+            Assert.Equal("status", result.Name);
+        }
+        
+        [Fact]
+        public void DefaultsToEmptyStringWhenNull()
+        {
+            var whatever = new Whatever();
+            var item = new Item
+            {
+                Notes = "notes ", status = null, FootPrint = "footprint ", Region = "Global whatever" 
+            };
+
+            var result = whatever.MoveData(item);
+            
+            Assert.Equal("", result.Name);
+        }
+
+
+                const string europeanSpanish = "dd 'de' MMMM yyyy";
+                const string germanic = "dd'.' MMMM yyyy";
+                const string eu = "dd MMMM yyyy";
+                
+        public void x()
+        {
+            // var lang = "LAS";
+            // DateTime anniversary = null;
+            //
+            // var s = formatDate(lang, anniversary);
+            // page.Graphics.DrawString(s, font, PdfBrushes.Black, rectangle.X, rectangle.Y - 6);
+        }
+
+        private static void formatDate(string lang, DateTime dateTime)
+        {
+            // var format = DetermineDateFormat(lang);
+            // var foramttedDate = DateTime.Parse(dateTime).ToString(format);
+        }
+
+        someValue = abc == null? "" : abc.Substring(0, 10)
+        x = abc == null? "" : abc.Substring(0, 10)
+        someValue = abc == null? "" : abc.Substring(0, 10)
+        someValue = abc == null? "" : abc.Substring(0, 10)
+        // lookup table
+        // private readonly Dictionary<string, string> formats =
+        // {
+        //     { "LAS", europeanSpanish },
+        //     { "PTB", europeanSpanish },
+        //     { "CZ", germanic },
+        // };
+        // private static string DetermineDateFormat(string lang)
+        // {
+        //     if (!formats.ContainsKey(lang)) return DefaultOutputFormatterSelector;
+        //     return formats[lang]
+        // }
     }
 }

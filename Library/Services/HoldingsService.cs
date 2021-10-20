@@ -72,5 +72,11 @@ namespace LibraryNet2020.Controllers
             context.Holdings.Update(holding);
             context.SaveChanges();
         }
+
+        public void CheckOutHolding(Holding holding, DateTime checkedOutDate, int currentPatronId)
+        {
+            holding.CheckOut(checkedOutDate, currentPatronId, CheckoutPolicies.BookCheckoutPolicy);
+            Update(holding);
+        }
     }
 }
